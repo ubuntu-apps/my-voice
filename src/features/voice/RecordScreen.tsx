@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Mic, Square, ArrowDown, ArrowUp } from 'lucide-react'
-import { Banner, Button, ScreenHeader, SegmentedControl } from '../../components/ui'
+import { Banner, BannerActionButton, Button, ScreenHeader, SegmentedControl } from '../../components/ui'
 import type { ReadingKind } from './types'
 import { formatFrequency, formatFrequencyWithNote, frequencyToNoteInfo } from './formatters'
 import { CentsMeter } from './CentsMeter'
@@ -23,6 +23,7 @@ export function RecordScreen({ monitor, readings }: RecordScreenProps) {
 
   const isRecording = monitor.status === 'recording'
   const isBusy = monitor.status === 'requesting' || isRecording
+  const micNeedsAccess = monitor.permission !== 'granted'
 
   useEffect(() => {
     if (!savedNotice) return
@@ -65,14 +66,26 @@ export function RecordScreen({ monitor, readings }: RecordScreenProps) {
     <section className="screen">
       <ScreenHeader eyebrow="Vocal check-in" title="Record" />
 
-      {(monitor.permission === 'denied' || monitor.permission === 'prompt') && !isRecording && (
+      {(micNeedsAccess || monitor.status === 'requesting') && !isRecording && (
         <Banner
           icon={<Mic size={18} aria-hidden />}
           aria-label="Microphone permission"
+          action={
+            <BannerActionButton
+              onClick={() => void monitor.requestMicAccess()}
+              disabled={monitor.status === 'requesting'}
+            >
+              {monitor.status === 'requesting'
+                ? 'Enabling…'
+                : monitor.permission === 'denied'
+                  ? 'Try again'
+                  : 'Enable microphone'}
+            </BannerActionButton>
+          }
         >
           {monitor.permission === 'denied'
-            ? 'Microphone access is blocked. Enable it in your browser settings to record.'
-            : 'Tap Start and allow microphone access when prompted.'}
+            ? 'Microphone access is blocked. Allow the mic for this site in your browser settings, then tap Try again.'
+            : 'Microphone access is needed to measure your pitch. Tap Enable microphone and allow access when prompted.'}
         </Banner>
       )}
 
