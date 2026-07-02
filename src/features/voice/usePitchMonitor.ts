@@ -242,6 +242,39 @@ export function usePitchMonitor() {
 
   const resetError = useCallback(() => setError(null), [])
 
+  const requestMicAccess = useCallback(async (): Promise<boolean> => {
+    if (!navigator.mediaDevices?.getUserMedia) {
+      setPermission('denied')
+      setStatus('error')
+      setError('Microphone is not supported in this browser.')
+      return false
+    }
+
+    if (status === 'recording') return false
+
+    setStatus('requesting')
+    setError(null)
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: false,
+          noiseSuppression: false,
+          autoGainControl: false,
+        },
+      })
+      stream.getTracks().forEach((track) => track.stop())
+      setPermission('granted')
+      setStatus('idle')
+      return true
+    } catch {
+      setPermission('denied')
+      setStatus('error')
+      setError('Microphone access is required to detect pitch. Check browser permissions.')
+      return false
+    }
+  }, [status])
+
   return {
     status,
     permission,
@@ -254,5 +287,6 @@ export function usePitchMonitor() {
     start,
     stop,
     resetError,
+    requestMicAccess,
   }
 }

@@ -39,12 +39,14 @@ export function Banner({
 export function BannerActionButton({
   children,
   onClick,
+  disabled,
 }: {
   children: ReactNode
   onClick: () => void
+  disabled?: boolean
 }) {
   return (
-    <Button variant="primary" size="sm" onClick={onClick}>
+    <Button variant="primary" size="sm" onClick={onClick} disabled={disabled}>
       {children}
     </Button>
   )
