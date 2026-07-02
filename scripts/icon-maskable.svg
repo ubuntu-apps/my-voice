@@ -6,10 +6,17 @@
     </linearGradient>
   </defs>
   <rect width="512" height="512" fill="url(#bg)"/>
-  <g transform="translate(0 24)">
-    <rect x="228" y="96" width="56" height="200" rx="28" fill="#ffffff"/>
-    <path d="M168 296 Q168 380 256 420 Q344 380 344 296 L344 256 L168 256 Z" fill="#ffffff"/>
-    <path d="M208 420 Q256 456 304 420 L304 456 Q256 492 208 456 Z" fill="#bbf7d0"/>
-    <line x1="256" y1="456" x2="256" y2="416" stroke="#0f766e" stroke-width="12" stroke-linecap="round"/>
+  <g transform="translate(0 8)">
+    <rect x="128" y="112" width="256" height="168" rx="84" fill="#ffffff"/>
+    <g stroke="#0f766e" stroke-width="10" stroke-linecap="round" opacity="0.28">
+      <line x1="168" y1="156" x2="344" y2="156"/>
+      <line x1="152" y1="196" x2="360" y2="196"/>
+      <line x1="168" y1="236" x2="344" y2="236"/>
+    </g>
+    <rect x="232" y="280" width="48" height="52" rx="12" fill="#ffffff"/>
+    <path d="M208 332 L256 392" stroke="#ffffff" stroke-width="22" stroke-linecap="round"/>
+    <path d="M304 332 L256 392" stroke="#ffffff" stroke-width="22" stroke-linecap="round"/>
+    <path d="M256 332 L256 404" stroke="#ffffff" stroke-width="22" stroke-linecap="round"/>
+    <ellipse cx="256" cy="412" rx="108" ry="24" fill="#bbf7d0"/>
   </g>
 </svg>
